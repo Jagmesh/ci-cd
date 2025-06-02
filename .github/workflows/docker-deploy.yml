@@ -12,9 +12,6 @@ on:
       PORTS:
         required: false
         type: string
-      ENVARS:
-        required: false
-        type: string
     secrets:
       DOCKER_USERNAME:
         required: true
@@ -28,6 +25,8 @@ on:
         required: true
       SSH_KEY:
         required: true
+      ENVARS:
+        required: false
 
 env:
   IMAGE_TAG: latest
