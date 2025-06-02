@@ -12,6 +12,9 @@ on:
       PORTS:
         required: false
         type: string
+      ENVARS:
+        required: false
+        type: string
     secrets:
       DOCKER_USERNAME:
         required: true
@@ -71,5 +74,13 @@ jobs:
             if [ ! -z "${{ inputs.PORT }}" ]; then
               PORT_MAPPING="-p ${{ inputs.PORT }}"
             fi
+
+            ENV_VARS=""
+            if [ ! -z "${{ inputs.ENVARS }}" ]; then
+              IFS=',' read -ra PAIRS <<< "${{ inputs.ENVARS }}"
+              for pair in "${PAIRS[@]}"; do
+                ENV_VARS+="--env $pair "
+              done
+            fi
   
-            docker run -d --name ${{ inputs.CONTAINER_NAME }} $PORT_MAPPING ${{ inputs.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+            docker run -d --name ${{ inputs.CONTAINER_NAME }} $PORT_MAPPING $ENV_VARS ${{ inputs.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
