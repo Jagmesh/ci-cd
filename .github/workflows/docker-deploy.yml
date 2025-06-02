@@ -75,7 +75,7 @@ jobs:
             fi
 
             ENV_VARS=""
-            if [ ! -z "${{ inputs.ENVARS }}" ]; then
+            if [ ! -z "${{ secrets.ENVARS }}" ]; then
               IFS=';' read -ra PAIRS <<< "${{ secrets.ENVARS }}"
               for pair in "${PAIRS[@]}"; do
                 ENV_VARS+="--env $pair "
